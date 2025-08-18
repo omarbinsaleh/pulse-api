@@ -110,6 +110,23 @@ const requestResponsehandler = (req, res) => {
 module.exports = requestResponsehandler;
 ```
 
+### **The Implementation of Routes or API End Point**
+
+Register Your allowed API end points in the `./routes/routes.js` file
+
+```jsx
+// Import Controllers:
+const serverControllers = require("../controllers/serverControllers.js");
+
+// Register Routes here
+const routes = [
+  { path: "/", method: "GET", handler: serverControllers.greetUser },
+];
+
+// Exports the routes
+module.exports = routes;
+```
+
 ## Create, Read, Update and Delete User
 
 ## Implementation of Token Based Authentication
