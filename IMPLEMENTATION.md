@@ -131,12 +131,12 @@ module.exports = routes;
 
 ### Implementation of the `create` Function
 
-The `create` method is dfined to create a new file and write data into that file. The following is the implementation details of the ` create ` method exposed from the `./lib/data.js` file.
+The `create` method is dfined to create a new file and write data into that file. The following is the implementation details of the `create` method exposed from the `./lib/data.js` file.
 
 ```jsx
 // Import Dependencies
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Module Scaffolding
 const lib = {};
@@ -145,25 +145,31 @@ const lib = {};
 // @desc: Create a new file and write content or data into that new file
 // @auth: Omar Bin Saleh
 lib.create = (dir, file, data, cb) => {
-  cb = typeof cb === 'function' ? cb : (err) => {};
+  cb = typeof cb === "function" ? cb : (err) => {};
   if (!dir) return cb("Error: Please specify a directory name");
   if (!data) return cb("Error: Data can be empty");
 
   // open the file
-  const pathName = path.join(__dirname, '../.data', dir, file + '.json');
-  fs.open(pathName, 'wx', (err, fileDescriptor) => {
+  const pathName = path.join(__dirname, "../.data", dir, file + ".json");
+  fs.open(pathName, "wx", (err, fileDescriptor) => {
     // perform error validation
-    if (err || !fileDescriptor) return cb("Error: Could not create a new file, it may already exist!");
+    if (err || !fileDescriptor) {
+      return cb("Error: Could not create a new file, it may already exist!");
+    }
 
     // write data into the file
     fs.writeFile(fileDescriptor, JSON.stringify(data), (err) => {
       // perform error validation
-      if (err) return cb("Error happened while writing data into the file");
+      if (err) {
+        return cb("Error happened while writing data into the file");
+      }
 
       // close the file
       fs.close(fileDescriptor, (err) => {
         // perform error validation
-        if (err) return cb("Error happened while closing the file");
+        if (err) {
+          return cb("Error happened while closing the file");
+        }
 
         // return by calling the callback
         return cb(false);
