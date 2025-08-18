@@ -1,0 +1,5 @@
+# add node_modules directory
+node_modules
+
+# add all environment veriable file
+.env
