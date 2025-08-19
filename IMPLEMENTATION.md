@@ -182,7 +182,7 @@ lib.create = (dir, file, data, cb) => {
 module.exports = lib;
 ```
 
-### **Implementation of the ` read ` Function
+### **Implementation of the ` read ` Function**
 
 The ` read ` method is designed to read the content of a particular ` .json ` file. using the `fs.readFile(path, options, callback)` method. The following is the implementation details of the ` read ` method exposed from the ` ./lib/data.js ` file
 
@@ -210,6 +210,59 @@ lib.read = (dir, file, cb) => {
 
     // on successful operation
     return cb(err, data);
+  });
+};
+
+// export the lib module
+module.exports = lib;
+```
+
+### **Implementation of the ` update ` Function**
+
+The ` update ` is a custom method defined to update the content of a particular JSON file. The followings are the implementation details of the ` update ` method exposed from the ` ./lib/data.js ` file:
+
+```jsx
+// Import Dependencies
+const fs = require('fs');
+const path = require('path');
+
+// Module Scaffolding
+const lib = {};
+
+// @name: update
+// @desc: update the content of an existing JSON file
+// @auth: Omar Bin Saleh
+lib.update = (dir, file, data, cb) => {
+  cb = typeof cb === 'function' ? cb : (err) => return console.log(err);
+  if (!dir || !file) return cb('Error: direcotry name and the file name can not be empty');
+  if (!data) return cb('Error: please provide data');
+
+  // step 1: open the file to update the content
+  const pathName = path.join(__dirname, '../.data', dir, file + '.json');
+  fs.open(pathName, 'r+', (err, fileDescriptor) => {
+    // perform error validation
+    if (err) return cb('Error: could not open the file for update');
+
+    // step 2: truncate the file
+    fs.ftruncate(fileDescriptor, (err) => {
+      // perform error validation
+      if (err) return cb('Error: could not truncate the file');
+
+      // step 3: write or update the file's content
+      fs.writeFile(fileDescriptor, JSON.stringify(data), (err) => {
+        // perform error validation
+        if (err) return cb('Error: could not update the file content');
+
+        // step 4: close the file
+        fs.close(flieDescriptor, (err) => {
+          // perform error validation
+          if (err) return cb('Error: could not close the file');
+
+          // return from this by calling the callback with error equal to false,
+          return cb(false);
+        });
+      });
+    });
   });
 };
 
