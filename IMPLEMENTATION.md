@@ -129,7 +129,7 @@ module.exports = routes;
 
 ## Create, Read, Update and Delete User
 
-### Implementation of the `create` Function
+### **Implementation of the `create` Function**
 
 The `create` method is dfined to create a new file and write data into that file. The following is the implementation details of the `create` method exposed from the `./lib/data.js` file.
 
@@ -179,6 +179,41 @@ lib.create = (dir, file, data, cb) => {
 };
 
 // export the lib
+module.exports = lib;
+```
+
+### **Implementation of the ` read ` Function
+
+The ` read ` method is designed to read the content of a particular ` .json ` file. using the `fs.readFile(path, options, callback)` method. The following is the implementation details of the ` read ` method exposed from the ` ./lib/data.js ` file
+
+```jsx
+// Import Dependencies
+const fs = require('fs');
+const path = require('path');
+
+// Module Scaffolding
+const lib = {};
+
+// @name: read
+// @desc: read a particular `.json` file's content.
+// @auth: Omar Bin Saleh
+lib.read = (dir, file, cb) => {
+  // perform error validation
+  cb = typeof cb === 'function' ? cb : (err) => {console.log(err)};
+  if (!dir || !file) return cb("Directory name and the file name can not be empty");
+
+  // read the file
+  const pahtName = path.join(__dirname, '../.data', dir, file + '.json');
+  fs.readFile(pathName, 'utf-8', (err, data) => {
+    // perform error validation
+    if (err && !data) return cb(err, data);
+
+    // on successful operation
+    return cb(err, data);
+  });
+};
+
+// export the lib module
 module.exports = lib;
 ```
 

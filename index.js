@@ -5,12 +5,10 @@ const port = process.env.PORT || 3000;
 const data = require('./lib/data.js');
 
 // test the file system
-data.create('test', 'newFile', {name: 'Omar Bin Saleh', role: 'Frontend Developer'}, (err) => {
-   if (err) {
-      return console.log(err);
-   }
-   
-   console.log("Write operation was successful");
+data.read('test', 'newFile', (err, data) => {
+   if (err) return console.log(err);
+
+   console.log(data);
 })
 
 // Create the Server
