@@ -5,7 +5,7 @@ const serverControllers = {};
 
 // Greet functions
 serverControllers.greetUser = (req, res, next) => {
-   res.status(201).json({message: "Welcome to the Pulse-API backend services"})
+   res.status(200).json({message: "Welcome to the Pulse-API backend services"})
 
 }
 
