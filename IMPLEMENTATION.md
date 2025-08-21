@@ -182,14 +182,14 @@ lib.create = (dir, file, data, cb) => {
 module.exports = lib;
 ```
 
-### **Implementation of the ` read ` Function**
+### **Implementation of the `read` Function**
 
-The ` read ` method is designed to read the content of a particular ` .json ` file. using the `fs.readFile(path, options, callback)` method. The following is the implementation details of the ` read ` method exposed from the ` ./lib/data.js ` file
+The `read` method is designed to read the content of a particular `.json` file. using the `fs.readFile(path, options, callback)` method. The following is the implementation details of the `read` method exposed from the `./lib/data.js` file
 
 ```jsx
 // Import Dependencies
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Module Scaffolding
 const lib = {};
@@ -199,12 +199,18 @@ const lib = {};
 // @auth: Omar Bin Saleh
 lib.read = (dir, file, cb) => {
   // perform error validation
-  cb = typeof cb === 'function' ? cb : (err) => {console.log(err)};
-  if (!dir || !file) return cb("Directory name and the file name can not be empty");
+  cb =
+    typeof cb === "function"
+      ? cb
+      : (err) => {
+          console.log(err);
+        };
+  if (!dir || !file)
+    return cb("Directory name and the file name can not be empty");
 
   // read the file
-  const pahtName = path.join(__dirname, '../.data', dir, file + '.json');
-  fs.readFile(pathName, 'utf-8', (err, data) => {
+  const pahtName = path.join(__dirname, "../.data", dir, file + ".json");
+  fs.readFile(pathName, "utf-8", (err, data) => {
     // perform error validation
     if (err && !data) return cb(err, data);
 
@@ -217,9 +223,9 @@ lib.read = (dir, file, cb) => {
 module.exports = lib;
 ```
 
-### **Implementation of the ` update ` Function**
+### **Implementation of the `update` Function**
 
-The ` update ` is a custom method defined to update the content of a particular JSON file. The followings are the implementation details of the ` update ` method exposed from the ` ./lib/data.js ` file:
+The `update` is a custom method defined to update the content of a particular JSON file. The followings are the implementation details of the `update` method exposed from the `./lib/data.js` file:
 
 ```jsx
 // Import Dependencies
@@ -267,6 +273,45 @@ lib.update = (dir, file, data, cb) => {
 };
 
 // export the lib module
+module.exports = lib;
+```
+
+### **Implementation of the `delete` method**
+
+The `delete` is a method defined in the `./lib/data.js` file to delete a JSON file from any of the sub-directory of the `.data/` directory. The implementation of the `delete` method is as follows:
+
+```jsx
+// Import Dependencies
+const url = require('url');
+const path = require('path');
+
+// Module Scaffolding
+const lib = {};
+
+// @name: delete
+// @desc: delete a file from any sub-directory of the `.data/` directory
+// @auth: Omar Bin Saleh
+lib.delete = (dir, file, cb) => {
+  // perform error validation
+  cb = typeof cb === 'function' ? cb : (err) => return console.log(err);
+  if (!dir || !file) {
+    const error = new Error('Input Error: directory name and file name must be provided');
+    return cb(error);
+  };
+
+  // unlik the file
+  const pathName = path.join(__dirname, '../.data', dir, file + '.json');
+  fs.unlink(pathName, (err) => {
+    // perform error validation
+    if (err) {
+      const error = new Error('Unlik Error: Could not delete, No such file or directory found');
+      return cb(error);
+    }
+
+    return cb(false);
+  });
+};
+
 module.exports = lib;
 ```
 
