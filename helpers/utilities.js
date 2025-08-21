@@ -1,4 +1,5 @@
 // Import Dependencies
+const crypto = require('crypto');
 
 // Module Scaffolding
 const utilities = {};
@@ -14,6 +15,22 @@ utilities.parseJSON = (data) => {
    } catch (error) {
       return {};
    }
+};
+
+// @name: genereateHashedPassword
+// @desc: Generate a hashed password
+// @auth: Omar Bin Saleh
+utilities.generateHashedPassword = (password) => {
+   if (!password || typeof password !== 'string') {
+      throw new Error('IntutError: Password must be a string');
+   }
+
+   try {
+      const hash = crypto.createHmac('sha256', String(process.env.NODE_SECRET)).update(password).digest('hex');
+      return hash;
+   } catch (error) {
+      throw new Error(error);
+   };
 };
 
 // Export the tilities module
