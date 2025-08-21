@@ -1,6 +1,6 @@
 // Import the dependencies
 const utilities = require('../helpers/utilities.js');
-const user = require('../lib/data.js');
+const usersCollection = require('../models/userModel.js');
 
 // Module Scaffolding
 const userControllers = {};
@@ -23,8 +23,9 @@ userControllers.createUser = (req, res) => {
          email,
          phone,
          password: hashedPassword
-      }
-      user.create('users', newUser.phone, newUser, (err) => {
+      };
+
+      usersCollection.create(newUser, (err) => {
          // perform error validation and send error response
          if (err) {
             return res.status(400).json({ success: false, message: err.message });
@@ -33,6 +34,7 @@ userControllers.createUser = (req, res) => {
          // send a success response to the client
          return res.status(201).json({ success: true, message: 'New user created successfully', user: newUser });
       });
+      
    } catch (error) {
       // catch the error and send an error response to the client
       return res.status(400).json({ success: false, message: error.message });
@@ -54,9 +56,21 @@ userControllers.loginUser = (req, res) => {
 // @auth: Omar Bin Saleh
 userControllers.getUserProfile = (req, res) => {
    // validate the client
+   const userId = req.body._id;
+   if (!userId) {
+      return res.status(400).json({ success: false, message: 'User ID is required' });
+   }
 
-   // send a success message to the client
-   res.status(200).json({success: true, message: 'User profile is returned successfully'});
+   usersCollection.read(userId, (err, user) => {
+      // perform error validation and send error response
+      if (err) {
+         return res.status(400).json({ success: false, message: err.message });
+      }
+
+      // send a success message to the client
+      res.status(200).json({success: true, message: 'User profile is returned successfully', user: {...user, password: null}});
+   })
+
 };
 
 // @name: deleteUser

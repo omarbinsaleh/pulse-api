@@ -46,10 +46,10 @@ const requestResponsehandler = (req, res) => {
 
    // identify and validate the requested routes
    const pathName = parsedUrl.pathname.replace(/^[\s\/]+|[\s\/]+$/g, '');
-   console.log(pathName)
    const route = routes.find(r => {
       return method === r.method && pathName === (r.path === "/" ? "" : r.path.replace(/^[\s\/]+|[\s\/]+$/g, ''))
    });
+   
    if (!route) {
       return res.status(404).json({success: false, message: 'Route not found'});
    };

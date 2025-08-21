@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 const data = require('./lib/data.js');
 
 // Create the Server
-const server = http.createServer(requestResponseHandler)
+const server = http.createServer(requestResponseHandler);
 
 // Listen the Server
 server.listen(port, () => {
