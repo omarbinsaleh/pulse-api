@@ -2,6 +2,8 @@
 const utilities = require('../helpers/utilities.js');
 const usersCollection = require('../collections/userCollection.js');
 const tokenCollection = require('../collections/tokenCollection.js');
+const mytoken = require('../lib/my-token/mytoken.js');
+const env = require('../env/environment.js');
 
 // Module Scaffolding
 const userControllers = {};
@@ -17,9 +19,12 @@ userControllers.createUser = (req, res) => {
       // hash the password
       const hashedPassword = utilities.generateHashedPassword(password);
 
+      // generate a unique ID
+      const userId = usersCollection.genereateUniqueId();
+
       // create new user
       const newUser = {
-         _id: phone,
+         _id: userId,
          name,
          email,
          phone,
@@ -33,10 +38,19 @@ userControllers.createUser = (req, res) => {
          }
 
          // generate token for the user
-         
+         const token = mytoken.sign({_id: newUser._id}, env.SECRET, {expiresIn: '2h'});
 
-         // send a success response to the client
-         return res.status(201).json({ success: true, message: 'New user created successfully', user: newUser });
+         // store the token in the token collection
+         const tokenId = tokenCollection.genereateUniqueId()
+         tokenCollection.create({_id: tokenId, token}, (err) => {
+            if (err) {
+               return res.status(500).json({ success: false, message: 'Error storing user token' });
+            }
+
+            // send a success response to the client
+            return res.status(201).json({ success: true, message: 'New user created successfully', user: newUser, token });
+         })
+
       });
       
    } catch (error) {
