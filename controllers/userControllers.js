@@ -1,6 +1,7 @@
 // Import the dependencies
 const utilities = require('../helpers/utilities.js');
-const usersCollection = require('../models/userModel.js');
+const usersCollection = require('../collections/userCollection.js');
+const tokenCollection = require('../collections/tokenCollection.js');
 
 // Module Scaffolding
 const userControllers = {};
@@ -30,6 +31,9 @@ userControllers.createUser = (req, res) => {
          if (err) {
             return res.status(400).json({ success: false, message: err.message });
          }
+
+         // generate token for the user
+         
 
          // send a success response to the client
          return res.status(201).json({ success: true, message: 'New user created successfully', user: newUser });
