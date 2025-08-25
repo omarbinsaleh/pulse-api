@@ -3,6 +3,7 @@ const url = require('url');
 const routes = require('../routes/routes.js');
 const { StringDecoder } = require('string_decoder');
 const utilities = require('./utilities.js');
+const myCookieParser = require('../middleware/my-cookie-parser.js');
 
 // @name: requestResponseHanlder
 // @desc: A function to handle all the requests and responses
@@ -31,7 +32,11 @@ const requestResponsehandler = (req, res) => {
          }
       };
    };
-   
+
+   // parse the http cookies and add the parsed cookies to the request object
+   const cookies = myCookieParser(req);
+   req.cookies = cookies;
+
    // parse the req.url and add the parsed url to the request object
    const parsedUrl = url.parse(req.url, true);
    const headers = req.headers;

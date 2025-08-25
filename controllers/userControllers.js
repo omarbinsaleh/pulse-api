@@ -31,7 +31,7 @@ userControllers.createUser = (req, res) => {
          password: hashedPassword
       };
 
-      usersCollection.create(newUser, (err) => {
+      usersCollection.create(newUser, newUser.phone, (err) => {
          // perform error validation and send error response
          if (err) {
             return res.status(400).json({ success: false, message: err.message });
@@ -42,10 +42,13 @@ userControllers.createUser = (req, res) => {
 
          // store the token in the token collection
          const tokenId = tokenCollection.genereateUniqueId()
-         tokenCollection.create({_id: tokenId, token}, (err) => {
+         tokenCollection.create({_id: tokenId, token}, tokenId , (err) => {
             if (err) {
                return res.status(500).json({ success: false, message: 'Error storing user token' });
             }
+
+            // set token in cookies
+            res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=${2 * 60 * 60}`);
 
             // send a success response to the client
             return res.status(201).json({ success: true, message: 'New user created successfully', user: newUser, token });
@@ -73,6 +76,12 @@ userControllers.loginUser = (req, res) => {
 // @desc: get an existing user profile
 // @auth: Omar Bin Saleh
 userControllers.getUserProfile = (req, res) => {
+   // extract the token 
+   const token = req.headers.authorization?.split(' ')[1];
+   if (!token) {
+      return res.status(401).json({ success: false, message: 'Unauthorized access. Token is missing' });
+   }
+
    // validate the client
    const userId = req.body._id;
    if (!userId) {
