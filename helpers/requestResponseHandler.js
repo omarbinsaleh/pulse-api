@@ -42,6 +42,9 @@ const requestResponsehandler = (req, res) => {
    const headers = req.headers;
    req.url = parsedUrl;
 
+   // add the query parameter object to the request object
+   req.query = typeof parsedUrl.query === 'object' ? parsedUrl.query : {};
+
    // validate allowed request method
    const allowedMethod = ['GET', 'POST', 'PUT', 'DELETE']
    const method = req.method;

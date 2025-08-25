@@ -5,10 +5,14 @@ const utilities = require('../helpers/utilities.js');
 const db = createDb('pulseDB');
 const usersCollection = db.createCollection('users');
 
-usersCollection.hashPassword = function () {
-   const hashedPassword = utilities.generateHashedPassword(this.password);
-   this.password = hashedPassword;
-   return this.password
+usersCollection.hashPassword = function (password) {
+   const hashedPassword = utilities.generateHashedPassword(password);
+   return hashedPassword;
+};
+
+usersCollection.comparePassword = function (password, hash) {
+   const exprectedHash = utilities.generateHashedPassword(password);
+   return exprectedHash === hash;
 };
 
 // export the users collection
