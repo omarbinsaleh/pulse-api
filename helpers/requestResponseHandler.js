@@ -2,7 +2,7 @@
 const url = require('url');
 const routes = require('../routes/routes.js');
 const { StringDecoder } = require('string_decoder');
-const utilities = require('./utilities.js');
+const utilities = require('../utilities');
 const myCookieParser = require('../middleware/my-cookie-parser.js');
 
 // @name: requestResponseHanlder
