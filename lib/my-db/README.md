@@ -128,7 +128,7 @@ lib/
     ├── db.js              # Handles database folder creation and initialization
     └── index.js           # Entry point for the my-db library
 
-````
+```
 
 ## Usage
 
