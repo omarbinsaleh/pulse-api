@@ -28,22 +28,28 @@ pulseapi/
 ├── env/
 │   └── environment.js                # Environment veriable for the application (e.g. SECRET, PORT)
 ├── helpers/
-│   └── requestResponseHandler.js     # The http request and response handler for the application
+│   ├── requestResponseHandler.js     # The http request and response handler for the application
+│   └── README.md                     # The http request and response handler for the application
 ├── lib/
-│   ├── my-db                         # A custom database library for CRUD operation
+│   ├── my-db/                        # A custom database library for CRUD operation
 │   │   ├── collection.js
 │   │   ├── db.js
-│   │   └── index.js
-│   └── my-token                      # A custom JWT like library for token sign & verify methods
-│       └── mytoken.js
+│   │   ├── index.js
+│   │   └── README.md
+│   └── my-token/                     # A custom JWT like library for token sign & verify methods
+│       ├── mytoken.js
+│       └── README.md
 ├── routes/
 │   └── routes.js                     # All available routes
 ├── middleware/
-│   └── my-cookie-parser.js           # My Custom cookie-parser for parsing http cookies
+│   └── my-cookie-parser /            # My Custom cookie-parser for parsing http cookies
+│       ├── my-cookie-parser.js       
+│       └── README.md                 
 ├── utilities/
 │   ├── generatehash.js               # Custom utility logic for generating a hashed string
 │   ├── parsejson.js                  # Custom utility logic for parsing valid JSON data
-│   └── index.js                      # Entry point for the utility modules
+│   ├── index.js                      # Entry point for the utility modules
+│   └── README.md                     
 ├── README.md                       # Project documentation
 └── package.json                    # Project metadata & dependencies
 ```
