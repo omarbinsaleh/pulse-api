@@ -114,14 +114,13 @@ users.delete("user-id", (err, success) => {
 
 ---
 
-```# My-DB Library Documentation
+# My-DB Library Documentation
 
 The `my-db` library is a simple file-based database module for Node.js, designed for basic CRUD operations using JSON files. It is used in the PulseAPI project to manage collections such as users, tokens, and blacklisted tokens.
 
 ## Folder Structure
 
 ```
-
 lib/
 └── my-db/
     ├── collection.js      # Defines the Collection class for CRUD operations
@@ -136,13 +135,13 @@ lib/
 
 To use the library, require it in your code:
 
-```javascript
+```jsx
 const myDB = require('./lib/my-db');
-````
+```
 
 ### Creating a Collection
 
-```javascript
+```jsx
 const users = myDB.createCollection("users");
 ```
 
@@ -150,7 +149,7 @@ const users = myDB.createCollection("users");
 
 #### Create a Document
 
-```javascript
+```jsx
 users.create(
   "user-id",
   { name: "John Doe", email: "john@example.com" },
