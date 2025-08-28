@@ -177,7 +177,7 @@ userControllers.getUserProfile = (req, res) => {
             }
          };
 
-         // if the document is found, then the token is blacklisted
+         // if no error occures and the document is found, that means the token is blacklisted already
          // send an error response to the client
          return res.status(401).json({ success: false, message: 'Unauthorized access. Token is blacklisted'});
       })
