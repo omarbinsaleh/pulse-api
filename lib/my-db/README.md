@@ -19,12 +19,13 @@ lib/
 To use the library, require it in your code:
 
 ```javascript
-const myDB = require("./lib/my-db");
+const createDB = require("./lib/my-db");
 ```
 
 ### Creating a Collection
 
 ```javascript
+const myDB = createDB('pulseDB');
 const users = myDB.createCollection("users");
 ```
 

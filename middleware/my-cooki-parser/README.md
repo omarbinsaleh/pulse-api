@@ -48,9 +48,3 @@ The returned object will be:
   session: 'xyz456'
 }
 ```
-
-## Export
-
-The module exports a single function:
-```javascript
-module.exports =

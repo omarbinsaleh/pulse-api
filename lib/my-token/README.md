@@ -67,4 +67,4 @@ myToken.verify(token, secret, (err, decoded) => {
 
 - The library does not implement all JWT features, but provides basic signing and verification.
 - Tokens are used for authentication and are stored in HTTP-only cookies in PulseAPI.
-- Always keep your secret key safe and never
+- Always keep your secret key safe and never share with other

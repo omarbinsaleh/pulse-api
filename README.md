@@ -29,7 +29,7 @@ pulseapi/
 │   └── environment.js                # Environment veriable for the application (e.g. SECRET, PORT)
 ├── helpers/
 │   ├── requestResponseHandler.js     # The http request and response handler for the application
-│   └── README.md                     # The http request and response handler for the application
+│   └── README.md                     
 ├── lib/
 │   ├── my-db/                        # A custom database library for CRUD operation
 │   │   ├── collection.js
@@ -40,18 +40,18 @@ pulseapi/
 │       ├── mytoken.js
 │       └── README.md
 ├── routes/
-│   └── routes.js                     # All available routes
+│   └── routes.js                     # All registered routes
 ├── middleware/
 │   └── my-cookie-parser /            # My Custom cookie-parser for parsing http cookies
 │       ├── my-cookie-parser.js       
 │       └── README.md                 
 ├── utilities/
-│   ├── generatehash.js               # Custom utility logic for generating a hashed string
-│   ├── parsejson.js                  # Custom utility logic for parsing valid JSON data
+│   ├── generatehash.js               # Custom utility module for generating a hashed string
+│   ├── parsejson.js                  # Custom utility module for parsing valid JSON data
 │   ├── index.js                      # Entry point for the utility modules
 │   └── README.md                     
-├── README.md                       # Project documentation
-└── package.json                    # Project metadata & dependencies
+├── README.md                         # Project documentation
+└── package.json                      # Project metadata & dependencies
 ```
 
 ## Getting Started
@@ -96,6 +96,8 @@ This document describes the user-related API endpoints provided by PulseAPI. The
 ## 1. Register User
 
 **Endpoint:** `POST /users/register`  
+**Method:** `POST`
+**Access:** Public API, No Token Authentication is Required
 **Description:** Registers a new user and returns a token.
 
 ### Request Body
@@ -152,8 +154,10 @@ This document describes the user-related API endpoints provided by PulseAPI. The
 
 ## 2. Login User
 
-**Endpoint:** `POST /users/login`  
-**Description:** Authenticates a user and returns a token.
+**Endpoint:** `POST /users/login` 
+**Method:** `POST`
+**Access:** Public API, No Token Authentication is Required 
+**Description:** Authenticates a user and returns a token for user Authentication.
 
 ### Request Body
 
@@ -170,9 +174,9 @@ This document describes the user-related API endpoints provided by PulseAPI. The
     "success": true,
     "message": "User login successful",
     "user": {
-      "email": "<user email>",
-      "phone": "<user phone>",
-      "name": "<user name>",
+      "email": "<user_email>",
+      "phone": "<user_phone>",
+      "name": "<user_name>",
       "password": null
     },
     "token": "<JWT-like token>"
@@ -207,15 +211,17 @@ This document describes the user-related API endpoints provided by PulseAPI. The
 
 ## 3. Get User Profile
 
-**Endpoint:** `GET /users/profile`  
+**Endpoint:** `GET /users/profile` 
+**Method:** `GET`
+**Access:** Private API, Token and User Authentication are Required
 **Description:** Fetches the profile of an authenticated user.
 
 ### Query Parameters
 
-| Field | Type   | Required | Description   |
-| ----- | ------ | -------- | ------------- |
-| email | String | Yes      | Email address |
-| phone | String | Yes      | Phone number  |
+| Field | Type   | Required | Description          |
+| ----- | ------ | -------- | -------------------- |
+| email | String | Yes      | User's Email address |
+| phone | String | Yes      | User's Phone number  |
 
 ### Authentication
 
@@ -229,9 +235,9 @@ This document describes the user-related API endpoints provided by PulseAPI. The
     "success": true,
     "message": "User profile fetched successfully",
     "user": {
-      "email": "<user email>",
-      "phone": "<user phone>",
-      "name": "<user name>",
+      "email": "<user_email>",
+      "phone": "<user_phone>",
+      "name": "<user_name>",
       "password": null
     }
   }
@@ -279,15 +285,17 @@ This document describes the user-related API endpoints provided by PulseAPI. The
 
 ## 4. Logout User
 
-**Endpoint:** `GET /users/logout`  
+**Endpoint:** `GET /users/logout` 
+**Mehtod:** `GET`
+**Access:** Private API, Token and User Authentication are Required 
 **Description:** Logs out the user by blacklisting the token.
 
 ### Query Parameters
 
-| Field | Type   | Required | Description   |
-| ----- | ------ | -------- | ------------- |
-| email | String | Yes      | Email address |
-| phone | String | Yes      | Phone number  |
+| Field | Type   | Required | Description          |
+| ----- | ------ | -------- | -------------------- |
+| email | String | Yes      | User's Email address |
+| phone | String | Yes      | User's Phone number  |
 
 ### Authentication
 
@@ -300,7 +308,7 @@ This document describes the user-related API endpoints provided by PulseAPI. The
   {
     "success": true,
     "message": "User logout successfully",
-    "token": "<JWT-like token>"
+    "token": "<JWT-like token which has been blacklisted>"
   }
   ```
 
