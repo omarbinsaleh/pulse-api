@@ -19,13 +19,13 @@ lib/
 To use the library, require it in your code:
 
 ```javascript
-const myDB = require('./lib/my-db');
+const myDB = require("./lib/my-db");
 ```
 
 ### Creating a Collection
 
 ```javascript
-const users = myDB.createCollection('users');
+const users = myDB.createCollection("users");
 ```
 
 ### CRUD Operations
@@ -33,19 +33,23 @@ const users = myDB.createCollection('users');
 #### Create a Document
 
 ```javascript
-users.create('user-id', { name: 'John Doe', email: 'john@example.com' }, (err, doc) => {
-  if (err) {
-    // handle error
-  } else {
-    // doc contains the created document
+users.create(
+  "user-id",
+  { name: "John Doe", email: "john@example.com" },
+  (err, doc) => {
+    if (err) {
+      // handle error
+    } else {
+      // doc contains the created document
+    }
   }
-});
+);
 ```
 
 #### Read a Document
 
 ```javascript
-users.read('user-id', (err, doc) => {
+users.read("user-id", (err, doc) => {
   if (err) {
     // handle error
   } else {
@@ -57,7 +61,7 @@ users.read('user-id', (err, doc) => {
 #### Update a Document
 
 ```javascript
-users.update('user-id', { name: 'Jane Doe' }, (err, doc) => {
+users.update("user-id", { name: "Jane Doe" }, (err, doc) => {
   if (err) {
     // handle error
   } else {
@@ -69,7 +73,7 @@ users.update('user-id', { name: 'Jane Doe' }, (err, doc) => {
 #### Delete a Document
 
 ```javascript
-users.delete('user-id', (err, success) => {
+users.delete("user-id", (err, success) => {
   if (err) {
     // handle error
   } else {
@@ -109,6 +113,7 @@ users.delete('user-id', (err, success) => {
 - Operations are asynchronous and use Node.js-style callbacks.
 
 ---
+
 ```# My-DB Library Documentation
 
 The `my-db` library is a simple file-based database module for Node.js, designed for basic CRUD operations using JSON files. It is used in the PulseAPI project to manage collections such as users, tokens, and blacklisted tokens.
@@ -116,12 +121,14 @@ The `my-db` library is a simple file-based database module for Node.js, designed
 ## Folder Structure
 
 ```
+
 lib/
 └── my-db/
-    ├── collection.js   # Defines the Collection class for CRUD operations
-    ├── db.js           # Handles database folder creation and initialization
-    └── index.js        # Entry point for the my-db library
-```
+    ├── collection.js      # Defines the Collection class for CRUD operations
+    ├── db.js              # Handles database folder creation and initialization
+    └── index.js           # Entry point for the my-db library
+
+````
 
 ## Usage
 
@@ -131,12 +138,12 @@ To use the library, require it in your code:
 
 ```javascript
 const myDB = require('./lib/my-db');
-```
+````
 
 ### Creating a Collection
 
 ```javascript
-const users = myDB.createCollection('users');
+const users = myDB.createCollection("users");
 ```
 
 ### CRUD Operations
@@ -144,19 +151,23 @@ const users = myDB.createCollection('users');
 #### Create a Document
 
 ```javascript
-users.create('user-id', { name: 'John Doe', email: 'john@example.com' }, (err, doc) => {
-  if (err) {
-    // handle error
-  } else {
-    // doc contains the created document
+users.create(
+  "user-id",
+  { name: "John Doe", email: "john@example.com" },
+  (err, doc) => {
+    if (err) {
+      // handle error
+    } else {
+      // doc contains the created document
+    }
   }
-});
+);
 ```
 
 #### Read a Document
 
 ```javascript
-users.read('user-id', (err, doc) => {
+users.read("user-id", (err, doc) => {
   if (err) {
     // handle error
   } else {
@@ -168,7 +179,7 @@ users.read('user-id', (err, doc) => {
 #### Update a Document
 
 ```javascript
-users.update('user-id', { name: 'Jane Doe' }, (err, doc) => {
+users.update("user-id", { name: "Jane Doe" }, (err, doc) => {
   if (err) {
     // handle error
   } else {
@@ -180,7 +191,7 @@ users.update('user-id', { name: 'Jane Doe' }, (err, doc) => {
 #### Delete a Document
 
 ```javascript
-users.delete('user-id', (err, success) => {
+users.delete("user-id", (err, success) => {
   if (err) {
     // handle error
   } else {
