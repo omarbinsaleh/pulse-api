@@ -128,59 +128,66 @@ userControllers.getUserProfile = (req, res) => {
    }
 
    try {
+      // generate the token identifier
+      // check if the token identifier is generated successfully
+      const tokenIdentifier = mytoken.generateTokenIdentifier(token);
+      if (!tokenIdentifier) {
+         return res.status(400).json({ success: false, message: 'Invalid token' });
+      };
+
       // check if the token is blacklisted already
-      const tokenIdentifier = token.split('.')[1];
-      blacklistTokenCollection.read(tokenIdentifier, (err, doc) => {
-         // check if an error occurs
-         if (err) {
-            // check if the error is due to the document not being found
-            // if yes, then the token is not blacklisted and we can proceed to verify the token
-            if (err.name === 'NotFoundError') {
-               // verify the token
-               mytoken.verify(token, env.SECRET, (err, decoded) => {
-                  // perform error validation
-                  // if error occurs, send an error response to the client
-                  if (err) {
-                     return res.status(401).json({ success: false, message: err.message });
-                  };
-
-                  // validate the user
-                  // the email and phone from the query parameter must be the same as the email and phone found in the decoded token
-                  // if not, send an error response to the client
-                  if (email !== decoded.email || phone !== decoded.phone) {
-                     return res.status(403).json({ success: false, message: 'Forbidden access. You are not allowed to access this resource' });
-                  };
-
-                  // check if the user exists by using the phone as the unique identifier
-                  const identifier = decoded.userIdentifier;
-                  usersCollection.read(identifier, (err, user) => {
-                     // perform error validation
-                     // if error occurs, send an error response to the client
-                     if (err) {
-                        return res.status(400).json({ success: false, message: err.message });
-                     };
-
-                     // check if the user id is the same as the decoded user id from the token
-                     // if not, send an error response to the client
-                     if (user._id !== decoded._id) {
-                        return res.status(403).json({ success: false, message: 'Forbidden access. You are not allowed to access this resource' });
-                     };
-
-                     // after all the validation, the user is valid and authorized to access the resource
-                     // finally send a success message to the client
-                     return res.status(200).json({ success: true, message: 'User profile fetched successfully', user: { ...user, password: null } });
-                  });
-               });
-            } else {
-               // if the error is not due to the document not being found, send an error response to the client
-               return res.status(400).json({ success: false, message: err.message });
-            }
+      blacklistTokenCollection.isTokenBlacklisted(tokenIdentifier, (err, isBlacklisted) => {
+         // check if the token is blacklisted
+         // if yes, send an error response to the client
+         if (isBlacklisted) {
+            return res.status(401).json({ success: false, message: 'Unauthorized access. Token is blacklisted' });
          };
 
-         // if no error occures and the document is found, that means the token is blacklisted already
-         // send an error response to the client
-         return res.status(401).json({ success: false, message: 'Unauthorized access. Token is blacklisted'});
-      })
+         // perform error validation
+         // if error occurs, send an error response to the client
+         if (err) {
+            return res.status(400).json({ success: false, message: err.message });
+         };
+
+         // after all the validation above, it is now safe to verify the token
+         // because the token is not blacklisted and  no error occured while checking if the token is blacklisted
+         // verify the token
+         mytoken.verify(token, env.SECRET, (err, decoded) => {
+            // perform error validation
+            // if error occurs, send an error response to the client
+            if (err) {
+               return res.status(401).json({ success: false, message: err.message });
+            };
+
+            // validate the user
+            // the email and phone from the query parameter must be the same as the email and phone found in the decoded token
+            // if not, send an error response to the client
+            if (email !== decoded.email || phone !== decoded.phone) {
+               return res.status(403).json({ success: false, message: 'Forbidden access. You are not allowed to access this resource' });
+            };
+
+            // check if the user exists by using the phone as the unique identifier
+            const identifier = decoded.userIdentifier;
+            usersCollection.read(identifier, (err, user) => {
+               // perform error validation
+               // if error occurs, send an error response to the client
+               if (err) {
+                  return res.status(400).json({ success: false, message: err.message });
+               };
+
+               // check if the user id is the same as the decoded user id from the token
+               // if not, send an error response to the client
+               if (user._id !== decoded._id) {
+                  return res.status(403).json({ success: false, message: 'Forbidden access. You are not allowed to access this resource' });
+               };
+
+               // after all the validation, the user is valid and authorized to access the resource
+               // finally send a success message to the client
+               return res.status(200).json({ success: true, message: 'User profile fetched successfully', user: { ...user, password: null } });
+            });
+         });
+      });
+
    } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
    }
@@ -194,7 +201,7 @@ userControllers.deleteUser = (req, res) => {
    // validate the client and the role of the client
 
    // send a success message to the client
-   res.tatus(200).json({ success: true, message: 'User deleted successfully' });
+   return res.status(200).json({ success: true, message: 'User deleted successfully' });
 };
 
 // @name: logoutUser
@@ -249,10 +256,18 @@ userControllers.logoutUser = (req, res) => {
                return res.status(403).json({ success: false, message: 'Forbiden access: You are not allowed to perform this action' });
             }
 
+            // generate the token identifier
+            // check if the token identifier is generated successfully
+            // if not, send an error response to the client
+            const tokenIdentifier = mytoken.generateTokenIdentifier(token);
+            if (!tokenIdentifier) {
+               return res.status(400).json({ success: false, message: 'Invalid token' });
+            }
+            
             // after all the validation, the user is valid and authorized to perform the logout operation
+            // generate a unique id for the blacklisted token
             // save the token as a black listed token
             const tokenId = blacklistTokenCollection.genereateUniqueId();
-            const tokenIdentifier = token.split('.')[1];
             blacklistTokenCollection.create({ _id: tokenId, token }, tokenIdentifier, (err, tokenDoc) => {
                // perform error validation
                // if error occurs, send an error response to the client
