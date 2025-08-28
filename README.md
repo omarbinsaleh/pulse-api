@@ -14,35 +14,36 @@ PulseAPI is a backend service built with raw Node.js for monitoring the uptime a
 - Modular code structure for scalability
 
 ## Project Structure
+
 ```
 pulseapi/
 ├── index.js                        # Application entry point
 ├── collections/
-│ ├── blackListTokenCollection.js   # A database collection for handling black listed token
-│ ├── tokenCollection.js            # A database collection for handling token
-│ └── userCollection                # A database collection for handling users
+│   ├── blackListTokenCollection.js   # A database collection for handling black listed token
+│   ├── tokenCollection.js            # A database collection for handling token
+│   └── userCollection                # A database collection for handling users
 ├── controllers/
-│ ├── serverControllers.js          # Controller logic for server APIs
-│ └── userControllers.js            # Controller logic for user APIs
+│   ├── serverControllers.js          # Controller logic for server APIs
+│   └── userControllers.js            # Controller logic for user APIs
 ├── env/
-│ └── environment.js                # Environment veriable for the application (e.g. SECRET, PORT)
+│   └── environment.js                # Environment veriable for the application (e.g. SECRET, PORT)
 ├── helpers/
-│ └── requestResponseHandler.js     # The http request and response handler for the application
+│   └── requestResponseHandler.js     # The http request and response handler for the application
 ├── lib/
-│ ├── my-db                         # A custom database library for CRUD operation
-│ │ ├── collection.js  
-│ │ ├── db.js  
-│ │ └── index.js  
-│ └── my-token                      # A custom JWT like library for token sign & verify methods
-│ └── mytoken.js  
+│   ├── my-db                         # A custom database library for CRUD operation
+│   │   ├── collection.js
+│   │   ├── db.js
+│   │   └── index.js
+│   └── my-token                      # A custom JWT like library for token sign & verify methods
+│       └── mytoken.js
 ├── routes/
-│ └── routes.js                     # All available routes
+│   └── routes.js                     # All available routes
 ├── middleware/
-│ └── my-cookie-parser.js           # My Custom cookie-parser for parsing http cookies
-├── utilities/  
-│ ├── generatehash.js               # Custom utility logic for generating a hashed string
-│ ├── parsejson.js                  # Custom utility logic for parsing valid JSON data
-│ └── index.js                      # Entry point for the utility modules
+│   └── my-cookie-parser.js           # My Custom cookie-parser for parsing http cookies
+├── utilities/
+│   ├── generatehash.js               # Custom utility logic for generating a hashed string
+│   ├── parsejson.js                  # Custom utility logic for parsing valid JSON data
+│   └── index.js                      # Entry point for the utility modules
 ├── README.md                       # Project documentation
 └── package.json                    # Project metadata & dependencies
 ```
