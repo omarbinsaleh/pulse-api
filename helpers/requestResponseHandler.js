@@ -11,11 +11,18 @@ const myCookieParser = require('../middleware/my-cooki-parser/my-cookie-parser.j
 const requestResponsehandler = (req, res) => {
    // add a send function in the response object
    res.send = (statusCode, payload) => {
+      // validate the status code and payload
+      // make sure they are in the right formate
       statusCode = typeof statusCode === 'number' ? statusCode : 500;
-      payload = typeof payload === 'object' ? JSON.stringify(payload) : {};
-      
+      payload = typeof payload === 'object' ? JSON.stringify(payload) : typeof payload === 'string' ? payload : {};
+
+      // set the 'content-type' header
       res.setHeader('content-type', 'application/json');
+
+      // set the status code
       res.writeHead(statusCode);
+
+      // send the payload to the client
       res.end(payload);
    }
    
@@ -27,13 +34,14 @@ const requestResponsehandler = (req, res) => {
       res.writeHead(statusCode);
       return {
          json(payload) {
-            payload = typeof payload === 'object' ? JSON.stringify(payload) : {};
+            payload = typeof payload === 'object' ? JSON.stringify(payload) : typeof payload === 'string' ? payload : {};
             res.end(payload);
          }
       };
    };
 
-   // parse the http cookies and add the parsed cookies to the request object
+   // parse the http cookies and 
+   // add the parsed cookies to the request object
    const cookies = myCookieParser(req);
    req.cookies = cookies;
 

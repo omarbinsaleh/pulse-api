@@ -7,7 +7,12 @@ const env = require('../env/environment.js');
 // Module Scaffolding
 const userControllers = {};
 
-// Define controllers
+// @name       : createUser
+// @description: A controller function to create a new user or register a new user in the system
+// @path       : POST /users/register
+// @access     : Public API end point, No authentication is required
+// @author     : Omar Bin Saleh
+// @contact    : omarbinsaleh44@gmail.com
 userControllers.createUser = (req, res) => {
    // extract data from the request body
    const { name, email, phone, password } = req.body;
@@ -61,9 +66,12 @@ userControllers.createUser = (req, res) => {
    }
 };
 
-// @name: loginUser
-// @desc: login an existing user
-// @auth: Omar Bin Saleh
+// @name       : loginUser
+// @description: A controller function to login an existing user
+// @path       : POST /users/login
+// @access     : Public API
+// @author     : Omar Bin Saleh
+// @contact    : omarbinsaleh44@gmail.com
 userControllers.loginUser = (req, res) => {
    // validate the user's credentials
    // extract phone and password from the req.body
@@ -107,9 +115,12 @@ userControllers.loginUser = (req, res) => {
    }
 };
 
-// @name: getUserProfile
-// @desc: get an existing user profile
-// @auth: Omar Bin Saleh
+// @name       : getUserProfile
+// @description: A controller function to get an existing user profile information
+// @path       : GET /users/profile?email=<user_email>&phone=<user_phone>
+// @access     : Private API. Authentication token is required
+// @author     : Omar Bin Saleh
+// @contact    : omarbinsaleh44@gmail.com
 userControllers.getUserProfile = (req, res) => {
    // extract email and phone from the req.query
    // check if both email and phone are provided
@@ -125,7 +136,7 @@ userControllers.getUserProfile = (req, res) => {
    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
    if (!token) {
       return res.status(401).json({ success: false, message: 'Unauthorized access. Token is missing' });
-   }
+   };
 
    try {
       // generate the token identifier
@@ -194,9 +205,12 @@ userControllers.getUserProfile = (req, res) => {
 
 };
 
-// @name: deleteUser
-// @desc: delete an existing user
-// @auth: Omar Bin Saleh
+// @name       : deleteUser
+// @description: A controller function to delete an existing user
+// @path       : DELETE /users/delete?email=<user_email>&phone=<user_phone>
+// @access     : Private API. Authentication Token and Authorization are required
+// @author     : Omar Bin Saleh
+// @contact    : omarbinsaleh44@gmail.com
 userControllers.deleteUser = (req, res) => {
    // validate the client and the role of the client
 
@@ -204,9 +218,12 @@ userControllers.deleteUser = (req, res) => {
    return res.status(200).json({ success: true, message: 'User deleted successfully' });
 };
 
-// @name: logoutUser
-// @desc: logout an existing user
-// @auth: Omar Bin Saleh
+// @name       : logoutUser
+// @description: A controller function to logout an existing user
+// @path       : GET /users/logout?email=<user_email>&phone=<user_phone>
+// @access     : Private API. Authentication Token and Authorization are required
+// @author     : Omar Bin Saleh
+// @contact    : omarbinsaleh44@gmail.com
 userControllers.logoutUser = (req, res) => {
    // extract user email and phone from the req.query
    // check if both the email and phone are provided

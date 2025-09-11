@@ -7,12 +7,12 @@ const env = {
       SECRET: 'this_is_the_token_secret_key_for_development'
    },
    stage: {
-      PORT: 4000,
-      SECRET: 'this_is_the_token_secret_key_for_development',
+      PORT: 3500,
+      SECRET: 'this_is_the_token_secret_key_for_stage',
    },
    production:{
-      PORT: 5000,
-      SECRET: 'this_is_the_token_secret_key_for_development',
+      PORT: 4000,
+      SECRET: 'this_is_the_token_secret_key_for_production',
    }
 
 };
