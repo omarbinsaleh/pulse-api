@@ -63,6 +63,11 @@ myToken.verify(token, secret, (err, decoded) => {
   - `InvalidSignatureError`: Signature does not match  
   - `TokenExpiredError`: Token has expired
 
+### `generateTokenIdentifier(token)`
+
+- **token**: A valid authentication token string
+- **returns**: String (an identifier for the token) or `null` for an invalid token
+
 ## Notes
 
 - The library does not implement all JWT features, but provides basic signing and verification.

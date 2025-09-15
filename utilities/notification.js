@@ -5,11 +5,14 @@ const notification = {};
 
 notification.sendMessage = (number, message) => {
    try {
-      if (typeof number !== 'number' || String(number).length !== 10) return;
+      if (typeof number !== 'number' || String(number).length !== 10) return message;
 
-      return console.log(`${message} has been sent to this number ${number}`);
+      // send the message
+      console.log(`${message} has been sent to this number ${number}`);
+      return message;
    } catch (error) {
       console.log(error);
+      return null
    }
 };
 

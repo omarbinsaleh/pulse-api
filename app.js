@@ -1,5 +1,5 @@
 const server = require('./server.js');
-const services = require('./services/services.js');
+const services = require('./services');
 
 // module scaffolding
 const app = {};
