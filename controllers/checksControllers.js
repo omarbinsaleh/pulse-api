@@ -16,8 +16,8 @@ const checksControllers = {};
  * @description Creates a new check
  * @route POST /checks/register
  * @access Private API. (requires authentication token and authorization)
- * @param {Object} req - HttpRequest Object
- * @param {Object} res - HttpResponse Object
+ * @param {Object} req - HTTP Request Object
+ * @param {Object} res - HTTP Response Object
  * @author Omar Bin Saleh
  * @contact omarbinsaleh44@gmail.com
  */
@@ -178,8 +178,8 @@ checksControllers.createCheck = (req, res) => {
  * @description find a check using ID and return the check
  * @route GET /checks/read?id=<'check_id'>&phone=<u'ser_phone'>&email=<'user_email'>
  * @access Private API, requires Token Authentication and Authorization
- * @param {Object} req - HttpRequest Object
- * @param {Object} res - HttpResponse Object
+ * @param {Object} req - HTTP Request Object
+ * @param {Object} res - HTTP Response Object
  * @author Omar Bin Saleh
  * @contact omarbinsaleh44@gmail.com
  */
@@ -273,8 +273,8 @@ checksControllers.getCheck = (req, res) => {
  * @description update a check document
  * @route PUT /checks/update
  * @access Private API, requires Authentication token and Authorization
- * @param {Object} req - HttpRequest object
- * @param {Object} res - HttpResponse object
+ * @param {Object} req - HTTP Request object
+ * @param {Object} res - HTTP Response object
  * @author Omar Bin Saleh
  * @contact omarbinsaleh44@gmail.com
  */
@@ -403,8 +403,8 @@ checksControllers.updateCheck = (req, res) => {
  * @access Private API, requires Token Authentication and Authorization
  * @author Omar Bin Saleh
  * @contact omarbinsaleh44@gmail.com
- * @param {Object} req - HttpRequest object
- * @param {Object} res - HttpResponse object
+ * @param {Object} req - HTTP Request object
+ * @param {Object} res - HTTP Response object
  */
 checksControllers.deleteCheck = (req, res) => {
    // send a success response to the client

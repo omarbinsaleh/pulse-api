@@ -13,8 +13,8 @@ const userControllers = {};
  * @description A controller function to create a new user or register a new user in the system
  * @path POST /users/register
  * @access Public API end point, No authentication is required
- * @param {Object} req - HttpRequest Object
- * @param {Object} res - HttpResponse Object
+ * @param {Object} req - HTTP Request Object
+ * @param {Object} res - HTTP Response Object
  * @returns {object} JSON - JSON object
  * @author Omar Bin Saleh
  * @contact omarbinsaleh44@gmail.com
@@ -102,8 +102,8 @@ userControllers.createUser = (req, res) => {
  * @description A controller function to allow an existing user to login
  * @path POST /users/login
  * @access Public API end point
- * @param {Object} req - HttpRequest Object
- * @param {Object} res - HttpResponse Object
+ * @param {Object} req - HTTP Request Object
+ * @param {Object} res - HTTP Response Object
  * @returns {object} JSON - JSON object
  * @author Omar Bin Saleh
  * @contact omarbinsaleh44@gmail.com
@@ -171,8 +171,8 @@ userControllers.loginUser = (req, res) => {
  * @description A controller function to get an existing user profile information
  * @path POST /users/profile?email=<'user_email'>&phone=<'user_phone'>
  * @access Private API, (requires authentication token and authorization)
- * @param {Object} req - HttpRequest Object
- * @param {Object} res - HttpResponse Object
+ * @param {Object} req - HTTP Request Object
+ * @param {Object} res - HTTP Response Object
  * @returns {object} JSON - JSON object
  * @author Omar Bin Saleh
  * @contact omarbinsaleh44@gmail.com
@@ -279,8 +279,8 @@ userControllers.getUserProfile = (req, res) => {
  * @description Delete an exsting user from the database
  * @route DELETE /users/delete?email=<'user_email'>&phone=<'user_phone'>
  * @access Private API, requires Authentication token and Authorization
- * @param {Object} req - HttpRequest Object
- * @param {Object} res - HttpResponse Object
+ * @param {Object} req - HTTP Request Object
+ * @param {Object} res - HTTP Response Object
  * @returns {Object} JSON
  * @author Omar Bin Saleh
  * @contact omarbinsaleh44@gmail.com
@@ -300,8 +300,8 @@ userControllers.deleteUser = (req, res) => {
  * @description A controller function to logout an existing user
  * @rotue GET /users/logout?email=<'user_email'>&phone=<'user_phone'>
  * @access Private API (requires Authentication Token and Authorization)
- * @param {Object} req - HttpRequest object with user email & phone in the query
- * @param {Object} res - HttpResponse object
+ * @param {Object} req - HTTP Request object with user email & phone in the query
+ * @param {Object} res - HTTP Response object
  * @returns { Object } JSON - JSON object
  * @author Omar Bin Saleh
  * @contact omarbinsaleh44@gmail.com

@@ -5,88 +5,126 @@ const { StringDecoder } = require('string_decoder');
 const utilities = require('../utilities');
 const myCookieParser = require('../middleware/my-cooki-parser/my-cookie-parser.js');
 
-// @name: requestResponseHanlder
-// @desc: A function to handle all the requests and responses
-// @auth: Omar Bin Saleh
+/**
+ * @name requestResponseHandler
+ * @description Core function to handle all HTTP requests and responses in the app.
+ * It augments the response object with helper methods (`res.send` and `res.status`),
+ * parses cookies, URL, headers, query parameters, and request body,
+ * and dispatches the request to the appropriate route handler.
+ * 
+ * @param {import('http').IncomingMessage} req - The HTTP request object
+ * @param {import('http').ServerResponse} res - The HTTP response object
+ * @returns {void}
+ * 
+ * @example
+ * const http = require('http');
+ * const server = http.createServer(requestResponseHandler);
+ * server.listen(3000);
+ */
 const requestResponsehandler = (req, res) => {
-   // add a send function in the response object
+   // ----------------------------------------
+   // Enhance Response Object
+   // ----------------------------------------
+
+   /**
+    * @name res.send
+    * @description Sends a response with the given status code and payload.
+    * Automatically sets the `Content-Type` header to `application/json`.
+    * 
+    * @param {number} statusCode - HTTP status code
+    * @param {object|string} payload - Response body (object will be JSON stringified)
+    * @returns {void}
+    */
    res.send = (statusCode, payload) => {
-      // validate the status code and payload
-      // make sure they are in the right formate
       statusCode = typeof statusCode === 'number' ? statusCode : 500;
-      payload = typeof payload === 'object' ? JSON.stringify(payload) : typeof payload === 'string' ? payload : {};
+      payload =
+         typeof payload === 'object'
+            ? JSON.stringify(payload)
+            : typeof payload === 'string'
+               ? payload
+               : {};
 
-      // set the 'content-type' header
       res.setHeader('content-type', 'application/json');
-
-      // set the status code
       res.writeHead(statusCode);
-
-      // send the payload to the client
       res.end(payload);
-   }
-   
-   // add a status method in the response object
+   };
+
+   /**
+    * Sets the HTTP status code for the response.
+    * @param {number} statusCode - The HTTP status code (default: 500).
+    * @returns {import('http').ServerResponse} res - Returns the response object for chaining.
+    * 
+    * @example
+    * res.status(404).json({ message: 'Not found' });
+    */
    res.status = (statusCode) => {
       statusCode = typeof statusCode === 'number' ? statusCode : 500;
-      
+      res.statusCode = statusCode;
+      return res;
+   };
+   
+   res.json = (payload) => {
+      // res.writeHead(statusCode);
       res.setHeader('content-type', 'application/json');
-      res.writeHead(statusCode);
-      return {
-         json(payload) {
-            payload = typeof payload === 'object' ? JSON.stringify(payload) : typeof payload === 'string' ? payload : {};
-            res.end(payload);
-         }
-      };
+      payload =
+         typeof payload === 'object'
+            ? JSON.stringify(payload)
+            : typeof payload === 'string'
+               ? payload
+               : {};
+      return res.end(payload);
    };
 
-   // parse the http cookies and 
-   // add the parsed cookies to the request object
-   const cookies = myCookieParser(req);
-   req.cookies = cookies;
+   // ----------------------------------------
+   // Parse Cookies and URL
+   // ----------------------------------------
 
-   // parse the req.url and add the parsed url to the request object
+   // Parse cookies and attach to request
+   req.cookies = myCookieParser(req);
+
+   // Parse the request URL and query parameters
    const parsedUrl = url.parse(req.url, true);
-   const headers = req.headers;
    req.url = parsedUrl;
-
-   // add the query parameter object to the request object
    req.query = typeof parsedUrl.query === 'object' ? parsedUrl.query : {};
 
-   // validate allowed request method
-   const allowedMethod = ['GET', 'POST', 'PUT', 'DELETE']
+   // ----------------------------------------
+   // Match Request Method
+   // ----------------------------------------
+
+   // Validate request method
+   const allowedMethod = ['GET', 'POST', 'PUT', 'DELETE'];
    const method = req.method;
    if (!allowedMethod.includes(method)) {
-      return res.status(400).json({success: false, message: 'Unaccepted request method'});
+      return res.status(400).json({ success: false, message: 'Unaccepted request method' });
    }
 
-   // identify and validate the requested routes
+   // ----------------------------------------
+   // Match and Find Route
+   // ----------------------------------------
    const pathName = parsedUrl.pathname.replace(/^[\s\/]+|[\s\/]+$/g, '');
-   const route = routes.find(r => {
-      return method === r.method && pathName === (r.path === "/" ? "" : r.path.replace(/^[\s\/]+|[\s\/]+$/g, ''))
+   const route = routes.find((r) => {
+      return (
+         method === r.method &&
+         pathName === (r.path === '/' ? '' : r.path.replace(/^[\s\/]+|[\s\/]+$/g, ''))
+      );
    });
-   
    if (!route) {
-      return res.status(404).json({success: false, message: 'Route not found'});
-   };
+      return res.status(404).json({ success: false, message: 'Route not found' });
+   }
 
-   // process the incoming data
+   // Collect incoming request body
    const decoder = new StringDecoder();
    let incomingData = '';
 
-   // add data event listener to the request
    req.on('data', (buffer) => {
       incomingData += decoder.write(buffer);
    });
 
-   // add end event listener to the request
    req.on('end', () => {
       incomingData += decoder.end();
-
-      // add the incoming data to the request body
       req.body = utilities.parseJSON(incomingData);
 
-      // return the right handler
+      // Dispatch to route handler
       return route.handler(req, res);
    });
 };
